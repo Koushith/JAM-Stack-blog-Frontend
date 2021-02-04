@@ -3,49 +3,70 @@ import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
 import { fromImageToUrl, API_URL } from '../utils/urls';
-import { twoDecimals } from '../utils/format';
 
-export default function Home({ products }) {
+export default function Home({ blog }) {
   return (
-    <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
+    <>
+      <div>
+        <Head>
+          <title>Create Next App</title>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
+      </div>
 
-      {products.map((product) => (
-        <div key={product.name} className={styles.product}>
-          <Link href={`/products/${product.slug}`}>
-            <a>
-              <div className={styles.product__Row}>
-                <div className={styles.product__ColImg}>
-                  <img src={fromImageToUrl(product.image)} />
-                </div>
+      <section className='text-gray-600 body-font'>
+        {blog.map((blog) => (
+          <Link href={`/blogs/${blog.slug}`}>
+            <div className='container px-5 py-20 mx-auto'>
+              <img src={fromImageToUrl(blog.image)} />
 
-                <div className={styles.product__Col}>
-                  {product.name} {twoDecimals(product.price)} Rs
-                </div>
+              <div className='flex-grow sm:text-left text-center mt-12 sm:mt-0'>
+                <h1 className='text-gray-900 text-2xl title-font font-medium mt-6 mb-2'>
+                  {blog.title}
+                </h1>
+                <h3 className='text-gray-900 text-xl title-font font-medium mt-6 mb-2'>
+                  {' '}
+                  {blog.date}
+                </h3>
+                <p className='leading-relaxed text-base'>
+                  {blog.meta_description}
+                </p>
+                <Link href={`/blogs/${blog.slug}`}>
+                  <a className='mt-3 text-indigo-500 inline-flex items-center'>
+                    Read More
+                    <svg
+                      fill='none'
+                      stroke='currentColor'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      stroke-width='2'
+                      className='w-4 h-4 ml-2'
+                      viewBox='0 0 24 24'
+                    >
+                      <path d='M5 12h14M12 5l7 7-7 7'></path>
+                    </svg>
+                  </a>
+                </Link>
               </div>
-            </a>
+            </div>
           </Link>
-        </div>
-      ))}
-    </div>
+        ))}
+      </section>
+    </>
   );
 }
 
 export async function getStaticProps() {
   // fetch the products -makinh API calls
 
-  const product_res = await fetch(`${API_URL}/products/`);
+  const blog_res = await fetch(`${API_URL}/blogs/`);
 
-  const products = await product_res.json();
-  console.log(product_res);
+  const blog = await blog_res.json();
 
   // return the products
   return {
     props: {
-      products,
+      blog,
     },
   };
 }
