@@ -1,8 +1,6 @@
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337';
+export const API_URL = 'http://localhost:1337';
 
-export const MAGIC_PUBLIC_KEY =
-  process.env.NEXT_MAGIC_PUBLIC_KEY || 'pk_test_547BA3CDAA2147D1';
+export const MAGIC_PUBLIC_KEY = 'pk_test_547BA3CDAA2147D1';
 
 export const fromImageToUrl = (image) => {
   if (!image) {
